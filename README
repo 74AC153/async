@@ -1,5 +1,4 @@
-
-The header async.h file contains a set of C preprocessor macros that simplify
+The header async.h contains a set of C preprocessor macros that simplify
 asynchronous function calls. For each function call, a thread is created and
 the function is run with the specified arguments. A token can be associated
 with this function call and passed around, and the return value can be obtained
