@@ -1,0 +1,59 @@
+
+This header async.h file contains a set of C preprocessor macros that simplify
+asynchronous function calls. For each function call, a thread is created and
+the function is run with the specified arguments. A token can be associated
+with this function call and passed around, and the return value can be obtained
+when finally necessary.
+
+See async_example.c for example usage.
+
+Available macros:
+
+ASYNC_PROTO(RET_TYPE, FUN, ARGLIST)
+  Emit a prototype declaration for a function that is run asynchronously. This
+  is required for all functions.
+
+ASYNC_IMPL(FUN)
+  Emit another prototype declaration to be used as the header for a function
+  definition. The is only used when the declaration and definition of a
+  function are done separately. E.g., ASYNC_PROTO is done in a header file and
+  ASYNC_IMPL in a compiled source file.
+
+ASYNC_ARG(ARG)
+  Access the named argument to an asynchronous function for read or write.
+
+ASYNC_RETURN(VAL)
+  Exit the asynchronous function returning VAL.
+
+
+ASYNC_ID(FUN)
+  Declare an identifier that holds state to capture the result of an
+  asynchronously run function.
+
+
+ASYNC_CALL(IDREF, FUN, ARGLIST)
+  Make an asynchronous function call to fun, with args ARGLIST, and token IDREF
+  declared using ASYNC_ID(FUN).
+
+ASYNC_CALL_STATUS(IDREF)
+  The value of errno associated with thread creation for the the matching
+  asynchronous function call.
+
+
+ASYNC_RESULT_READY(IDREF)
+  'true' if the asynchronous call has completed.
+
+ASYNC_RESULT_WAIT(IDREF) 
+  Block and wait for the asynchronous call to complete.
+
+ASYNC_RESULT_STATUS(IDREF)
+  The value of errno associated with the thread join associated with the
+  matching asynchronous function call.
+
+ASYNC_RESULT(IDREF)
+  The return value of an asynchronously run function. Can be called more than
+  once. Will block if the function attached to the id has not completed yet.
+
+
+ASYNC_DETACH(FUN, ARGS)
+  Make an asynchronous function whose result we are not interested in.
